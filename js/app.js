@@ -66,15 +66,12 @@ const data = [
     }
 ]
 
-let pricePerPound = 0
-
-let weight = 0
-
-let item = ''
-
-let price = 0
-
-let results = {}
+let results = {
+    item: '',
+    weight: 0,
+    price: 0,
+    pricePerPound: 0
+}
 
 //2. Display data on browser .map()
 
@@ -98,11 +95,13 @@ cells.forEach(cell => {
     //3. click on a cell
     cell.addEventListener('click', ()=> {
         // console.log('clicked')
+        const itemDisplay = document.getElementById('itemDisplay')
         for (let obj of data) {
             if (obj.item == cell.getAttribute('data-item')) {
-                item = obj.itemDisplay
-                pricePerPound = obj.pricePerPound
-                console.log(pricePerPound)
+                results.item = obj.itemDisplay
+                results.pricePerPound = obj.pricePerPound
+
+                itemDisplay.innerText = results.item
             }
         }
     })
@@ -111,28 +110,21 @@ cells.forEach(cell => {
 const setWeight =()=> {
     const scale = parseFloat(document.getElementById('scale').value )
 
-    // console.log(scale)
-    weight = scale
+    results.weight = scale
 
-    setPrice(weight, pricePerPound)
+    setPrice(results.weight, results.pricePerPound)
 }
 
 const setPrice =(w, p)=> {
-    price = w * p
-    console.log(price)
-    return price
+    results.price = w * p
+    return results.price
 }
 
 const displayResults =()=> {
-    const itemDisplay = document.getElementById('itemDisplay')
+
     const weightDisplay = document.getElementById('weightDisplay')
     const priceDisplay = document.getElementById('priceDisplay')
 
-    results.item = item
-    results.price = price
-    results.weight = weight 
-
-    itemDisplay.innerText = results.item 
     weightDisplay.innerText = results.weight
     priceDisplay.innerText = results.price.toFixed(2)
 }
